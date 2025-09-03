@@ -6,8 +6,8 @@ class Connection {
       _oled = oled;
     }
 
-    bool initialize(void) {  
-      LOGI("Wifi", "Connecting to %s", _ssid);
+    bool initialize(void) {
+      Log.notice(  "Connecting to %s"CR , _ssid);
 
       return connect();
     }
@@ -28,12 +28,13 @@ class Connection {
       }
       
       if (WiFi.status() != WL_CONNECTED) {
-        LOGE("Wifi", "Failed to connect to %s", _ssid);
+        Log.error("Failed to connect to %s"CR , _ssid);
         _oled->drawWIFI(gImage_wifi_failure);
         return false;
       }
 
-      LOGI("Wifi", "Connect success.\n Local IP:%s\n Subnet Mask: %s", WiFi.localIP().toString(), WiFi.subnetMask().toString());
+      Log.notice( "Connect success.\n Local IP:%s\n Subnet Mask: %s"CR , WiFi.localIP().toString(), WiFi.subnetMask().toString());
+
       _oled->drawWIFI(gImage_wifi_connected);
 
       return true;
@@ -41,7 +42,7 @@ class Connection {
 
     void loop() {
       if (WiFi.status() != WL_CONNECTED) {
-        LOGE("WiFi", "Connection lost, reconnecting...");
+        Log.notice("WiFi connection lost, reconnecting...");
         connect();
       }
 

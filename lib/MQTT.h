@@ -1,56 +1,48 @@
 class MQTT {
   public:
-    MQTT(PubSubClient *mqttClient) {
-      _mqttClient = mqttClient;
+    PubSubClient *client;
+    void (*callback) (char *, byte *, unsigned int);
+
+    MQTT(PubSubClient *mqttClient, void (*callback) (char *, byte *, unsigned int) ) {
+      client = mqttClient;
+      this->callback = callback;
     }
 
     bool initialize(void) {
-      _mqttClient->setServer(MQTT_BROKER, MQTT_PORT);
-      _mqttClient->setKeepAlive(60);
-      _mqttClient->setCallback(mqttCallback);
+      client->setServer(MQTT_BROKER, MQTT_PORT);
+      client->setKeepAlive(60);
+      client->setCallback(callback);
 
       connectToMQTT();
       return true;
     }
 
     void connectToMQTT() {
-      while (!_mqttClient->connected()) {
+      while (!client->connected()) {
         Serial.printf("Connecting to MQTT Broker as %s.....\n", MQTT_CLIENT_ID);
 
-        if (_mqttClient->connect(MQTT_CLIENT_ID, MQTT_USER, MQTT_PASS)) {
+        if (client->connect(MQTT_CLIENT_ID, MQTT_USER, MQTT_PASS)) {
           Serial.println("Connected to MQTT broker");
-          
-          _mqttClient->subscribe(MQTT_TOPIC);
+
           // Publish message upon successful connection
-          _mqttClient->publish(MQTT_TOPIC, "Hi EMQX I'm ESP32 ^^"); 
+          client->publish(MQTT_TOPIC, "Hi EMQX I'm ESP32 ^^"); 
+          
+          client->subscribe(MQTT_TOPIC);
         } else {
           Serial.print("Failed, rc=");
-          Serial.print(_mqttClient->state());
+          Serial.print(client->state());
           Serial.println(" try again in 5 seconds");
           delay(5000);
       }
     }
   }
 
-  static void mqttCallback(char *mqtt_topic, byte *payload, unsigned int length) {
-    Serial.print("Message received on mqtt_topic: ");
-    Serial.println(mqtt_topic);
-    Serial.print("Message: ");
-    for (unsigned int i = 0; i < length; i++) {
-        Serial.print((char) payload[i]);
-    }
-    Serial.println("\n-----------------------");
-  }
-
   void loop() {
-    if (! _mqttClient->connected() ) {
-      LOGE("MQTT", "Server connection lost, reconnecting...");
+    if (! client->connected() ) {
+      Log.notice("Server connection lost, reconnecting...");
       connectToMQTT();
     }
 
-    _mqttClient->loop(); 
+    client->loop(); 
   }
-  
-  private:
-    PubSubClient *_mqttClient;
 };

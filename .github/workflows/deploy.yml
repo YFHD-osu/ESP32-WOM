@@ -14,8 +14,8 @@ jobs:
 
       - name: Replace placeholders with secrets
         run: |
-          sed -i "s|__MQTT_BROKER__|${{ secrets.MQTT_BROKER }}|g" index.js
-          sed -i "s|__MQTT_PORT__|${{ secrets.MQTT_PORT }}|g" index.js
+          sed -i "s|__MQTT_BROKER__|${{ secrets.MQTT_BROKER }}|g" ./web/index.js
+          sed -i "s|__MQTT_PORT__|${{ secrets.MQTT_PORT }}|g" ./web/index.js
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

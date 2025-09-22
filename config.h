@@ -23,7 +23,7 @@
 |  OLED Section          |
 |  - Enable OLED display |
 ======================= */
-#define OLED_DISPLAY false
+#define OLED_DISPLAY 0
 
 /* =======================================================
 |  Logging Section                                       |
@@ -31,7 +31,7 @@
 |  - LOG_LEVEL: 0=>ERROR, 1=>WARNNING, 2=>INFO, 3=>DEBUG |
 ======================================================= */
 #define LOG_LEVEL 1
-#define LOG_TIMESTAMP false
+#define LOG_TIMESTAMP 0
 
 /* ==============================================================================
 |  CERTIFICATE Section                                                          |

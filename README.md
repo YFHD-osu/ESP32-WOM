@@ -37,7 +37,8 @@ After creating the server, you will need to write the information below for futh
 
 First, clone this repo to your computer, and edit the ``config.h`` in the root directory.
 
-#### Instructions
+#### Instructions for ``config.h``
+
 | Variable | Description | Type |
 | :---     | :---        | :--- |
 | WIFI_SSID | The name of the WiFi that ESP32 connect | char[] |
@@ -66,12 +67,45 @@ Device(
   4 // LED pin to indicate the device is running or not (-1 to disable)
 )
 ```
+
+#### Library installation
+This project need Arduino IDE and the dependences below
+
+| Name         | Description |
+| :----------- | :---------- |
+| [U8g2lib](https://github.com/olikraus/u8g2)      | To drive the OLED display |
+| [ArduinoLog](https://github.com/thijse/Arduino-Log)   | Serial port logging framework | 
+| [ESP32Ping](https://github.com/marian-craciunescu/ESP32Ping)    | To check whether the target machine is online |
+| [WakeOnLan](https://github.com/a7md0/WakeOnLan)    | Send magic packet to the target machine |
+| [ArduinoJson](https://github.com/bblanchon/ArduinoJson)  | Parse the message received from MQTT |
+| [PubSubClient](https://github.com/knolleary/pubsubclient) | Communicate with the MQTT server |
+
+
+#### Library modification
+
+In ESP32Ping library, change line 292 to 293 in ``ping.cpp`` to support lower timeout for ping function
+```cpp
+// Timeout
+  tout.tv_sec = 0; // tout.tv_sec = timeout;
+  tout.tv_usec = timeout*1000; //tout.tv_usec = 0;
+```
+
+Afterward, you can flash this .ino file into your ESP32 and excepting it connect to the MQTT server correctly.
+
 ### Part C: The website
 
 Since the website is static, this project utilize Github Pages to host.
 
-First you will need to prepare the IP address of your MQTT server over websocket. (e.g. ``wss://a1234567.ala.us-east-1.emqxsl.com``) And then navigate to ``Settings`` > ``Secrets and variables`` on github, and add two variables called ``MQTT_BROKER`` and ``MQTT_PORT`` by pressing the ``New repository secret`` button.
+First you will need to prepare the IP address of your MQTT server over websocket. (e.g. ``wss://a1234567.ala.us-east-1.emqxsl.com``) And then navigate to ``Settings`` > ``Secrets and variables`` on github, add two variables called ``MQTT_BROKER``, ``MQTT_PORT`` by pressing the ``New repository secret`` button.
 
 Navigate to the ``Actions`` tab on Github, and then click on ``Deploy to GitHub Pages`` workflow. Afterward, run it and wait until it complete. 
 
 Finally, enable the Github Page function in the repo settings and set ``web/`` as the root directory, then the whole setup is done.
+
+## Usage
+To use the project, first will need to navigate to the github pages you just setup, and then enter the username and password that worked for the MQTT websocket server.
+
+Then the javascript will requests device list from ESP32 through the MQTT server. When you click on any device in the list, the wake requests would send also over the MQTT to ESP32. Then ESP32 will do the rest of sending the magic packet and refresh the online status for you.
+
+## Contirbute to the project
+If you have any suggestion to this project, feel free to make an issue or pull requests. Let's make it better together.

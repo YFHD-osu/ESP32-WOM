@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>YFHD 網路喚醒 - 登入</title>
+    <link rel="shortcut icon" type="image/png" href="https://yfhd-osu.github.io/ESP32-WOW/web/assets/favicon.png"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" type="text/css" href="index.css"/>
+    
+  </head>
+
+  <meta name="theme-color" content="#000000">
+
+  <body>
+    <div id="login-window" class="container">
+
+      <div id="login-title" style="display: flex; align-items: center; justify-content: center;">
+        <img src="assets/Arrow.svg" 
+          style="margin: 5px 10px 0px 0px;">
+        <h1> 登入以繼續 </h1>
+      </div>
+
+      <img id="logo" src="assets/Arduino.png" alt="一張圖片">
+
+      <form id="login-form" class="form-wrapper">
+        <input id="username-field" required/>
+        <span id="usr"> 使用者帳號 </span>
+
+        <!-- <input name="password" required type="password"/> -->
+        <input id="password-field" type="password" class="form-control" required>
+        <span id="pwd"> 密碼 </span>
+        
+        <button id="submitBtn" type="submit"> 
+          <i class="fa-regular fa-circle-right" ></i> 
+          <div id="login-loading" class="spinner" >
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+            <div class="bar4"></div>
+            <div class="bar5"></div>
+            <div class="bar6"></div>
+            <div class="bar7"></div>
+            <div class="bar8"></div>
+            <div class="bar9"></div>
+            <div class="bar10"></div>
+            <div class="bar11"></div>
+            <div class="bar12"></div>
+          </div>
+        </button>
+      </form>
+      <br> <br> <br>
+
+    </div>
+
+    <div id="device-list" class="container " style="display: none;">
+
+      <div id="login-title" style="display: flex; align-items: center; justify-content: center;">
+        <img src="assets/Devices.svg" 
+          style="margin: 5px 10px 0px 0px;">
+        <h1> 裝置列表 </h1>
+      </div>
+
+      <div id="list-wrapper">
+        <div id="list-viewport"> </div>
+      </div>
+
+      <div id="function-wrapper"> 
+        <button onclick="client.refresh()" id="refresh">
+          <div id="refresh-loading" class="spinner">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+            <div class="bar4"></div>
+            <div class="bar5"></div>
+            <div class="bar6"></div>
+            <div class="bar7"></div>
+            <div class="bar8"></div>
+            <div class="bar9"></div>
+            <div class="bar10"></div>
+            <div class="bar11"></div>
+            <div class="bar12"></div>
+          </div>
+          <span id="refresh-text"> 更新狀態 </span>
+        </button>
+        
+        <button onclick="client.logout()" id="logout">登出</button>
+      </div>
+    </div>
+  </body>
+
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+  <script src="index.js"></script>
+</html>

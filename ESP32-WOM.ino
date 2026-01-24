@@ -86,6 +86,11 @@ void setup() {
 void loop() {
   connection->loop();
   mqttHandler->loop();
+
+  if (millis() > RESTART_INTERVAL) {
+    Log.verboseln("ESP32 is now restarting due to an restart interval set");
+    esp_restart();
+  }
 }
 
 void ping_loop(void *params) {
@@ -122,11 +127,13 @@ void mqttCallback(char *mqtt_topic, byte *payload, unsigned int length) {
   bool ok;
   if (cmd == "query") {
     ok = mqttHandler->client->publish(MQTT_TOPIC, String(DEVICE_COUNT).c_str());
-    Serial.println(ok ? "Publish OK" : "Publish failed: unknown reason (buffer full?)");
+    
+    if (!ok) Log.error("MQTT Publish failed.\n");
 
     for (int i=0; i<DEVICE_COUNT; i++) {
       ok = mqttHandler->client->publish(MQTT_TOPIC, devices[i].toJson().c_str());
-      Serial.println(ok ? "Publish OK" : "Publish failed: unknown reason (buffer full?)");
+
+      if (!ok) Log.error("MQTT Publish failed.\n");
     }
     
   } else if (cmd == "wake") {
@@ -145,6 +152,6 @@ void mqttCallback(char *mqtt_topic, byte *payload, unsigned int length) {
     devices[device].wake();
 
     ok = mqttHandler->client->publish(MQTT_TOPIC, "OK");
-    Serial.println(ok ? "Publish OK" : "Publish failed: unknown reason (buffer full?)");
+    if (!ok) Log.error("MQTT Publish failed.\n");
   }
 }

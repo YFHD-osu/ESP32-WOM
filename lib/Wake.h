@@ -54,5 +54,5 @@ class Device {
   }
 
   private:
-    static const unsigned updateInterval = 20;
+    static const unsigned updateInterval = 5;
 };

@@ -105,7 +105,7 @@ void SSD1306::update(unsigned int interval) {
 #else
 
 bool SSD1306::initialize() {
-  Serial.println("OLED module is disabled, skip the initialization");
+  Log.verboseln("OLED module is disabled, skip the initialization");
   return true;
 }
 

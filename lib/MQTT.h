@@ -19,19 +19,17 @@ class MQTT {
 
     void connectToMQTT() {
       while (!client->connected()) {
-        Serial.printf("Connecting to MQTT Broker as %s.....\n", MQTT_CLIENT_ID);
+        Log.verboseln ("Connecting to MQTT Broker as %s.....", MQTT_CLIENT_ID);
 
         if (client->connect(MQTT_CLIENT_ID, MQTT_USER, MQTT_PASS)) {
-          Serial.println("Connected to MQTT broker");
+          Log.verboseln ("Connected to MQTT broker");
 
           // Publish message upon successful connection
           client->publish(MQTT_TOPIC, "Hi EMQX I'm ESP32 ^^"); 
           
           client->subscribe(MQTT_TOPIC);
         } else {
-          Serial.print("Failed, rc=");
-          Serial.print(client->state());
-          Serial.println(" try again in 5 seconds");
+          Log.error("Failed, rc=%d, try again in 5 seconds...\n", client->state());
           delay(5000);
       }
     }

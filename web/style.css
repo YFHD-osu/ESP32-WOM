@@ -1,0 +1,458 @@
+:root {
+    --apple-blue: #0071e3;
+    --apple-grey: #f5f5f7;
+    --apple-text-dark: #1d1d1f;
+    --apple-text-grey: #86868b;
+    --container-min-width: 450px;
+    --bg-color: #fff;
+    --card-bg: #fff;
+    --border-color: #d2d2d7;
+    --shadow-color: rgba(0, 0, 0, 0.08);
+    --input-bg: #fff;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --apple-grey: #1c1c1e;
+        --apple-text-dark: #f5f5f7;
+        --apple-text-grey: #98989d;
+        --bg-color: #000;
+        --card-bg: #1c1c1e;
+        --border-color: #38383a;
+        --shadow-color: rgba(0, 0, 0, 0.3);
+        --input-bg: #2c2c2e;
+    }
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--apple-text-dark);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.login-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.login-card {
+    max-width: var(--container-min-width);
+    width: 100%;
+    text-align: center;
+}
+
+.login-card-inner {
+    background-color: var(--card-bg);
+    padding: 40px;
+    border-radius: 18px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 12px var(--shadow-color);
+    min-width: var(--container-min-width);
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    position: relative;
+    overflow: hidden;
+}
+
+.wake-logo {
+    font-size: 3.5rem;
+    margin-bottom: 1rem; /* Adjusted margin */
+}
+
+.login-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0; /* Removed margin to group with header */
+}
+
+.form-floating > .form-control {
+    border-radius: 8px;
+    border-color: var(--border-color);
+    margin-bottom: 0px;
+    background-color: var(--input-bg) !important;
+    color: var(--apple-text-dark) !important;
+}   
+
+.form-floating > .form-control:focus {
+    border-color: var(--apple-text-dark);
+    outline: 4px solid rgba(0, 113, 227, 0.1);
+}
+
+/* 1. 當輸入框被點擊 (Focus) 時：標籤變藍色 */
+.form-floating > .form-control:focus ~ label {
+    color: var(--apple-text-dark) !important;
+    opacity: 1; /* 確保顏色飽和 */
+}
+
+/* 2. 當輸入框有文字 (無論是否 Focus) 時：確保背景跟隨輸入框顏色，且文字顏色正確 */
+.form-floating > .form-control:focus ~ label::after,
+.form-floating > .form-control:not(:placeholder-shown) ~ label::after {
+    background-color: var(--input-bg) !important;
+}
+
+/* 3. 當輸入框有文字但「失去焦點」時：文字變回深色(或白色)，確保可讀性 */
+.form-floating > .form-control:not(:placeholder-shown) ~ label {
+    color: var(--apple-text-dark) !important;
+}
+
+/* Group inputs like Apple's stacked fields */
+.input-group-stacked .form-floating:first-child .form-control {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom: 0;
+}
+
+.input-group-stacked .password-wrapper {
+    position: relative;
+}
+
+/* 確保密碼輸入框下方有圓角 */
+#password {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-left-radius: 8px !important;
+    border-bottom-right-radius: 8px !important;
+    padding-right: 50px;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+.btn-signin-inline {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+    background: none;
+    border: none;
+    color: var(--apple-text-grey);
+    padding: 0;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-signin-inline:hover {
+    color: var(--apple-text-dark);
+}
+
+/* 轉圈圈動畫 */
+.spinning {
+    animation: spin 1s linear infinite;
+}
+
+.spinner {
+    border: 2px solid var(--border-color);
+    border-top: 2px solid var(--apple-blue);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Elevate the focused input to prevent its shadow from being clipped by siblings */
+.input-group-stacked .form-floating {
+    position: relative;
+}
+
+/* 當輸入框獲得焦點或有文字時，按鈕變為藍色 */
+.form-control:focus ~ .btn-signin-inline,
+.form-control:not(:placeholder-shown) ~ .btn-signin-inline {
+    color: var(--apple-blue);
+}
+
+.keep-signed-in {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--apple-text-grey);
+}
+
+/* Footer Styles */
+footer {
+    padding: 20px;
+    font-size: 0.75rem;
+    color: var(--apple-text-grey);
+    border-top: 1px solid var(--border-color);
+    background-color: var(--apple-grey);
+}
+
+.footer-links a {
+    color: var(--apple-text-grey);
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+/* List Container Styles */
+.list-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--card-bg);
+    padding: 40px;
+    border-radius: 18px;
+    border: none;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    opacity: 0;
+    transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
+    pointer-events: none;
+}
+
+.list-container.active {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.login-form.hidden {
+    transform: translateX(-100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.login-card-inner {
+    position: relative;
+}
+
+.list-header {
+    margin-bottom: 30px;
+}
+
+.list-header h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.device-list-container {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+}
+
+.device-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.device-list-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    pointer-events: auto;
+    z-index: 1;
+    background-color: var(--card-bg);
+}
+
+.device-list-loading.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.loading-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.list-item {
+    width: 100%;
+    padding: 20px 16px;
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+    display: flex;
+}
+
+.list-item:last-child {
+    border-bottom: none;
+}
+
+.list-item:hover {
+    background-color: var(--apple-grey);
+}
+
+.list-item-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+}
+
+.list-item-content i {
+    font-size: 1.5rem;
+    color: var(--apple-text-dark);
+}
+
+.list-item-text {
+    flex: 1;
+}
+
+.list-item-text h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0 0 4px 0;
+    color: var(--apple-text-dark);
+}
+
+.list-item-text p {
+    font-size: 0.875rem;
+    margin: 0;
+    color: var(--apple-text-grey);
+}
+
+.list-item-spinner {
+    min-width: 30px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 12px;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.list-item-spinner .ispinner {
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.list-item-spinner.active .ispinner {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.status-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
+
+.list-item-spinner.active .status-indicator {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.status-indicator[data-online="true"] {
+    background-color: #34c759;
+}
+
+.status-indicator[data-online="false"] {
+    background-color: #ff3b30;
+}
+
+/* List Actions */
+.list-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    justify-content: space-around;
+}
+
+.btn-action {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--card-bg);
+    color: var(--apple-text-dark);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    max-width: 150px;
+}
+
+.btn-action:hover {
+    background-color: var(--apple-grey);
+    border-color: var(--apple-blue);
+}
+
+.btn-action i {
+    font-size: 1rem;
+}
+
+.btn-logout {
+    color: #ff3b30;
+}
+
+.btn-logout:hover {
+    border-color: #ff3b30;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 576px) {
+    .login-container {
+        padding: 0;
+    }
+
+    .login-card {
+        max-width: 100%;
+        height: 100%;
+    }
+
+    .login-card-inner {
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        border-radius: 0;
+        border: none;
+        box-shadow: none;
+        padding: 20px;
+        justify-content: center; /* Center content on mobile for better look */
+    }
+
+    .login-header {
+        margin-bottom: 40px;
+    }
+
+}
